@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React from "react";
+import ListOfCards from "../src/components/list-of-cards/list-of-cards.component";
+import SearchBar from "../src/components/search-bar/search-bar.component";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.PureComponent {
+  state = {
+    searchField: "",
+    monsters: [],
+  };
+
+  setMonster = (event) => {
+    this.setState(() => {
+      return { ...this.state, searchField: event.target.value };
+    });
+  };
+
+  monstersToBeRendered = () => {
+    const filteredMonsters = this.state.monsters.filter((monster) =>
+      monster.name.toUpperCase().includes(this.state.searchField.toUpperCase())
+    );
+    return filteredMonsters;
+  };
+
+  componentDidMount() {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((json) =>
+        this.setState(() => {
+          return { ...this.state, monsters: json };
+        })
+      );
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <h1>Monsters Rolodex</h1>
+        <SearchBar placeholder='Search Monsters' handleChange={this.setMonster} />
+        <ListOfCards>{this.monstersToBeRendered()}</ListOfCards>
+      </div>
+    );
+  }
 }
 
 export default App;
