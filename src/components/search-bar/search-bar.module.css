@@ -1,0 +1,20 @@
+.searchBar input{
+
+    box-sizing: border-box;
+    padding: 3px;
+    margin: 20px;
+    height: 4vw;
+    width: 17vw;
+    text-align: center;
+    font-size: 1.2vw;
+}
+
+.searchBar input::placeholder{
+    color: rgba(0, 121, 121, 0.603);
+}
+
+.searchBar input:focus{
+    outline: none;
+    border-color: wheat;
+    box-shadow: 0 0 10px wheat;
+}
